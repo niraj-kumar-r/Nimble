@@ -42,3 +42,27 @@ export const getUserFriends = async (req, res) => {
         res.status(404).json({ message: err.message });
     }
 };
+
+/* UPDATE */
+
+export const addRemoveFriend = async (req, res) => {
+    try {
+        const { id, friendId } = req.params;
+        const user = User.findById(id);
+        const friend = User.findById(friendId);
+
+        if (user.friend.includes(friend)) {
+            user.friend = user.friend.filter((f_id) => f_id !== friendId);
+            friend.friend = friend.friend.filter((f_id) => f_id !== id);
+        } else {
+            user.friend.push(friendId);
+            friend.friend.push(id);
+        }
+        await user.save();
+        await friend.save();
+
+        await getUserFriends(req, res);
+    } catch (err) {
+        res.status(404).json({ message: err.message });
+    }
+};
