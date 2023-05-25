@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 // authentication -> verifying the identity of a user or entity
 // authorization -> it determines what a user is allowed to do after their identity has been authenticated
 
-import User from "../models/User";
+import User from "../models/User.js";
 
 export const register = async (req, res) => {
     try {
